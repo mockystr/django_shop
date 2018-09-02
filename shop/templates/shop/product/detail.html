@@ -1,0 +1,46 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ product.name }}
+{% endblock %}
+
+
+{% block content %}
+    <style>
+        .product-block {
+            margin-left: 100px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .mockingbird {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+            .product-block {
+                margin-left: 0px;
+            }
+        }
+    </style>
+    <div class="container">
+        <div class="d-flex mockingbird" style="justify-content: center">
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_img.png" %}{% endif %}"
+                 style="width: 300px;height: 300px">
+            <div class="product-block" style="">
+                <h1>{{ product.name }}</h1>
+                <h2><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></h2>
+                <p class="price">${{ product.price }}</p>
+                <form action="{% url "cart:cart_add" product.id %}" method="post">
+                    {{ cart_product_form.as_p }}
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-outline-info" value="Add to cart">
+                </form>
+            </div>
+        </div>
+        <div class="text-muted mt-5 text-center">
+            {{ product.description|linebreaks }}
+        </div>
+    </div>
+
+{% endblock %}
