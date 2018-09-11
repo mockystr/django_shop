@@ -9,6 +9,16 @@
 
 {% block content %}
     <style>
+        select {
+            height: 33px;
+            padding: 0px 5px;
+            max-width: 80px;
+            margin-bottom: 5px;
+            border: 1px solid #808080;
+            border-radius: 3px;
+            outline: none;
+        }
+
         table td img {
             width: 120px;
         }
@@ -46,11 +56,11 @@
                                     {{ item.update_quantity_form.quantity }}
                                     {{ item.update_quantity_form.update }}
                                     <input type="submit" value="{% trans "Update" %}"
-                                           class="btn btn-outline-secondary p-1">
+                                           class="btn btn-outline-secondary p-1 mb-1">
                                     {% csrf_token %}
                                 </form>
                                 <a href="{% url "cart:cart_remove" product.id %}"
-                                   class="btn btn-danger p-1 mt-2">{% trans "Remove" %}</a>
+                                   class="btn btn-danger p-1 mt-1">{% trans "Remove" %}</a>
                             </td>
                             <td>${{ item.total_price }}</td>
                         </tr>

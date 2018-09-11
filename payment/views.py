@@ -37,10 +37,10 @@ def payment_process(request):
 
 
 def payment_done(request):
-    messages.success(request, 'Your order has been accepted')
+    messages.success(request, 'Order has been accepted')
     return redirect("/")
 
 
 def payment_canceled(request):
-    messages.error(request, "Your order has been canceled")
+    messages.error(request, "Order has been canceled")
     return redirect("/")
