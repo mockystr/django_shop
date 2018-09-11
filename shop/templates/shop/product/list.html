@@ -1,20 +1,23 @@
 {% extends "shop/base.html" %}
 {% load static %}
-
+{% load i18n %}
 {% block title %}
     {% if category %}
         {{ category.name }}
     {% else %}
-        Products
+        {% trans "Products" %}
     {% endif %}
 {% endblock %}
 
 {% block content %}
     <div class="container">
+        <div class="text-center mb-4">
+            <h1>{% if category %}{{ category.name }}{% else %}{% trans "Products" %}{% endif %}</h1>
+        </div>
         <div class="d-flex" style="justify-content: space-between">
             <ul class="list-group col-lg-2 col-md-3 col-sm-3 row" id="product_list">
                 <li class="list-group-item list-group-item-action">
-                    <a href="{% url "shop:product_list" %}">All</a>
+                    <a href="{% url "shop:product_list" %}">{% trans "All" %}</a>
                 </li>
                 {% for c in categories %}
                     <li class="list-group-item list-group-item-action">
@@ -27,6 +30,7 @@
                     <div class="card mb-4 mr-3 col-lg-3 col-md-5 col-sm-5">
                         <a href="{{ product.get_absolute_url }}">
                             <img src="
+
                                     {% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_img.png" %}{% endif %}"
                                  class="card-img-top" style="">
                         </a>
@@ -35,9 +39,9 @@
                             <a href="{{ product.category.get_absolute_url }}"
                                class="card-title">{{ product.category }}</a>
                             {% if product.available %}
-                                <p class="text-success card-text">Available</p>
+                                <p class="text-success card-text">{% trans "Available" %}</p>
                             {% else %}
-                                <p class="text-danger card-text">Not available</p>
+                                <p class="text-danger card-text">{% trans "Not available" %}</p>
                             {% endif %}
                             <div style="margin-top: -15px;">
                                 <p class="card-text">${{ product.price }}</p>

@@ -1,15 +1,16 @@
 {% extends "shop/base.html" %}
+{% load i18n %}
 {% load static %}
 {% load bootstrap %}
 {% block title %}
-    Checkout
+    {% trans "Checkout" %}
 {% endblock %}
 
 {% block content %}
     <div class="container">
-        <h1 class="text-center">Checkout</h1>
+        <h1 class="text-center">{% trans "Checkout" %}</h1>
         <div class="text-center text-muted">
-            <h3>Your order</h3>
+            <h3>{% trans "Your order" %}r</h3>
             <ul class="list-group list-group-flush">
                 {% for item in cart %}
                     <li class="list-group-item">
@@ -17,18 +18,20 @@
                         <span>${{ item.total_price }}</span>
                     </li>
                     {% if cart.coupon %}
-                        <li>
-                            "{{ cart.coupon.code }}" ({{ cart.coupon.discount }}% off)
+                        <li class="list-group-item">
+                            {% blocktrans with code=cart.coupon.code discount=cart.coupon.discount%}
+                                "{{ code }}" ({{ discount }}% off)
+                            {% endblocktrans %}
                             <span>- ${{ cart.get_discount|floatformat:"2" }}</span>
                         </li>
                     {% endif %}
                 {% endfor %}
             </ul>
-            <p>Total: ${{ cart.get_total_price_after_discount|floatformat:"2" }}</p>
+            <p>{% trans "Total" %}: ${{ cart.get_total_price_after_discount|floatformat:"2" }}</p>
         </div>
-        <form action="." method="post">
+        <form action="." method="post" class="mb-3">
             {{ form|bootstrap }}
-            <div class="text-center"><input type="submit" value="Place order" class="btn btn-outline-success"></div>
+            <div class="text-center"><input type="submit" value="{% trans "Place order" %}" class="btn btn-outline-success"></div>
             {% csrf_token %}
         </form>
     </div>

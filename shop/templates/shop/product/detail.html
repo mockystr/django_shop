@@ -1,6 +1,7 @@
 {% extends "shop/base.html" %}
+{% load i18n %}
 {% load static %}
-
+{% load bootstrap %}
 {% block title %}
     {{ product.name }}
 {% endblock %}
@@ -12,14 +13,33 @@
             margin-left: 100px;
         }
 
+        select.form-control:focus::-ms-value {
+            color: #495057;
+            background-color: #fff;
+        }
+
+        select {
+            padding: 5px 10px;
+            margin-left: 15px;
+            max-width: 80px;
+            border: 1px solid #808080;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        select:focus {
+
+        }
+
         @media screen and (max-width: 768px) {
             .mockingbird {
                 flex-direction: column;
                 text-align: center;
                 align-items: center;
             }
+
             .product-block {
-                margin-left: 0px;
+                margin-left: 0;
             }
         }
     </style>
@@ -34,13 +54,32 @@
                 <form action="{% url "cart:cart_add" product.id %}" method="post">
                     {{ cart_product_form.as_p }}
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-outline-info" value="Add to cart">
+                    <input type="submit" class="btn btn-outline-info" value="{% trans "Add to cart" %}">
                 </form>
             </div>
         </div>
         <div class="text-muted mt-5 text-center">
             {{ product.description|linebreaks }}
         </div>
+        {% if recommended_products %}
+            <div class="recommendations">
+                <h3>{% trans "People who bought this also bought" %}</h3>
+                {% for p in recommended_products %}
+                    <div class="item">
+                        <a href="{{ p.get_absolute_url }}">
+                            <img src="
+                                    {% if p.image %}
+                                        {{ p.image.url }}
+                                    {% else %}
+                                        {% static "img/no_image.png" %}
+                                    {% endif %}">
+                        </a>
+                        <p><a href="{{ p.get_absolute_url }}">{{ p.name }}</a></p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
     </div>
 
 {% endblock %}
